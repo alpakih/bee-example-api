@@ -14,7 +14,7 @@ func (u *CategoryDto) Valid(v *validation.Validation) {
 	//custom validation
 }
 
-func Validation(u CategoryDto) (res bool, dataErrorValidation interface{}) {
+func ValidateCategoryDto(u CategoryDto) (res bool, dataErrorValidation interface{}) {
 	valid := validation.Validation{}
 
 	resultValidation, _ := valid.Valid(&u)
@@ -25,7 +25,7 @@ func Validation(u CategoryDto) (res bool, dataErrorValidation interface{}) {
 		}
 		dataErrorValidation = merged
 		res = false
-		return
+		return res, dataErrorValidation
 	}
 	res = true
 	return res, dataErrorValidation

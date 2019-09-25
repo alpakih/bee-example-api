@@ -17,7 +17,6 @@ type CustomerController struct {
 func (c *CustomerController) Post() {
 	var cDto dto.CreateCustomerDto
 	errMap := json.Unmarshal(c.Ctx.Input.RequestBody, &cDto)
-
 	if errMap != nil {
 		c.Ctx.Output.Header("Content-Type", "application/json;charset=UTF-8")
 		c.Ctx.ResponseWriter.WriteHeader(http.StatusBadRequest)
@@ -25,6 +24,16 @@ func (c *CustomerController) Post() {
 		c.ServeJSON()
 		return
 	}
+
+	res, errMessage := dto.ValidateCustomerDto(cDto)
+	if !res  {
+		c.Ctx.Output.Header("Content-Type", "application/json;charset=UTF-8")
+		c.Ctx.ResponseWriter.WriteHeader(http.StatusBadRequest)
+		c.Data["json"] = response.ValidationError(errMessage)
+		c.ServeJSON()
+		return
+	}
+
 	result, errInsert := services.StoreCustomer(cDto)
 	if errInsert != nil {
 		c.Ctx.Output.Header("Content-Type", "application/json;charset=UTF-8")
