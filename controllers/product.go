@@ -25,6 +25,16 @@ func (c *ProductController) Post() {
 		c.ServeJSON()
 		return
 	}
+
+	res, errMessage := dto.ValidateProductDto(cDto)
+	if !res  {
+		c.Ctx.Output.Header("Content-Type", "application/json;charset=UTF-8")
+		c.Ctx.ResponseWriter.WriteHeader(http.StatusBadRequest)
+		c.Data["json"] = response.ValidationError(errMessage)
+		c.ServeJSON()
+		return
+	}
+
 	result, errInsert := services.StoreProduct(cDto)
 	if errInsert != nil {
 		c.Ctx.Output.Header("Content-Type", "application/json;charset=UTF-8")

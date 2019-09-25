@@ -33,3 +33,8 @@ func ValidationError(d interface{}) Response {
 	meta := MetaComposer(http.StatusBadRequest, "Validation Error")
 	return Response{Meta: meta, Data: d}
 }
+
+func CustomMessage(httpStatus int,  message string) (response Response)  {
+	meta := MetaComposer(httpStatus, message)
+	return Response{Meta:meta}
+}

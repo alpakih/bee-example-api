@@ -25,8 +25,7 @@ func (c *CategoryController) Post() {
 		return
 	}
 
-	res, errMessage := dto.Validation(cDto)
-
+	res, errMessage := dto.ValidateCategoryDto(cDto)
 	if !res  {
 		c.Ctx.Output.Header("Content-Type", "application/json;charset=UTF-8")
 		c.Ctx.ResponseWriter.WriteHeader(http.StatusBadRequest)
