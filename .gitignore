@@ -1,0 +1,7 @@
+.idea
+vendor
+*.exe
+*.exe~
+Gopkg.lock
+singlesignon
+conf/app.conf
